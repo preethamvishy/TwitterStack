@@ -1,6 +1,6 @@
 var request = require('request');
 const Buffer = require('buffer-js');
-var config = require('./config');
+var config = require('../config');
 
 const bufferAPIUrl = 'https://api.bufferapp.com/1'
 const opts = {
@@ -27,7 +27,6 @@ export default {
     pendingUpdates: function(req, res) {
         var updateOpts = opts;
         updateOpts.profile_id = req.params.id;
-        console.log(updateOpts)
         Profiles.pendingUpdates(updateOpts, (body) => {
             res.json(body)
         });
@@ -48,26 +47,23 @@ export default {
         if (req.body.scheduled_at !== undefined)
             createOpts.scheduled_at = req.body.scheduled_at
 
-        // var options = {
-        //     method: req.method,
-        //     url: `${bufferAPIUrl}/updates/create.json`,
-        //     headers:
-        //     {
-        //         'Cache-Control': 'no-cache',
-        //         'Content-Type': 'application/x-www-form-urlencoded'
-        //     },
-        //     form: createOpts
-        // };
+        var options = {
+            method: req.method,
+            url: `${bufferAPIUrl}/updates/create.json`,
+            headers:
+            {
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            form: createOpts
+        };
 
-        // request(options, function (error, response, body) {
-        //     if (error) throw new Error(error);
-        //     res.json(body);
-        // });
-        Updates.create(createOpts, (body) => {
-            res.json(body)
-        })
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            res.json(body);
+        });
     },
-
+    
     shuffleUpdates: function(req, res) {
         var shuffleOpts = opts;
         shuffleOpts.profile_id = req.params.id;

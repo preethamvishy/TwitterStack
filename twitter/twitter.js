@@ -1,4 +1,4 @@
-var config = require('./config');
+var config = require('../config');
 var request = require('request');
 
 const twitterAPIUrl = 'https://api.twitter.com/1.1'

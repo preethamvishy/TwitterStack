@@ -2,8 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-import twitter from './twitter';
-import buffer from './buffer';
+import twitter from './twitter/twitter';
+import buffer from './buffer/buffer';
 
 var app = express();
 

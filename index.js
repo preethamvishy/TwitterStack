@@ -12,11 +12,11 @@ app.use(cors());
 const PORT = 5555;
 
 app.get('/api/authorize', twitter.authorize);
-app.get('/api/search/:query', twitter.search);
-app.get('/api/user/:screenname', twitter.user);
-app.get('/api/list/:screenname/:slug', twitter.list);
-app.get('/api/favs/:screenname', twitter.favs);
-app.get('/api/id/:id', twitter.fetchById);
+app.get('/api/search/:query/:max?', twitter.search);
+app.get('/api/user/:screenname/:max?', twitter.user);
+app.get('/api/list/:screenname/:slug/:max?', twitter.list);
+app.get('/api/favs/:screenname/:max?', twitter.favs);
+app.get('/api/id/:id', twitter.id);
 
 
 app.listen(PORT);

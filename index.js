@@ -26,4 +26,6 @@ app.get('/api/buffer/pending/:id', buffer.pendingUpdates);
 app.post('/api/buffer/create/', buffer.createUpdates);
 app.get('/api/buffer/shuffle/:id', buffer.shuffleUpdates);
 
+app.get('/graphql/buffer/profiles/', buffer.graphProfiles);
+
 app.listen(PORT);

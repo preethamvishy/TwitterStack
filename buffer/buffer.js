@@ -1,8 +1,10 @@
 var request = require('request');
 const Buffer = require('buffer-js');
 var config = require('../config');
+import { graphql } from 'graphql'
+import { schema } from './schema'
+import base from './base';
 
-const bufferAPIUrl = 'https://api.bufferapp.com/1'
 const opts = {
     access_token: config.bufferAccessToken
 };
@@ -47,16 +49,8 @@ export default {
         if (req.body.scheduled_at !== undefined)
             createOpts.scheduled_at = req.body.scheduled_at
 
-        var options = {
-            method: req.method,
-            url: `${bufferAPIUrl}/updates/create.json`,
-            headers:
-            {
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            form: createOpts
-        };
+        var options = base.constructOpts('/updates/create.json', req.method);
+        options.form = createOpts;
 
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
@@ -71,4 +65,9 @@ export default {
             res.json(body)
         });
     },
+
+    graphProfiles: function (req, res) {
+        const query = '{ profiles { id, avatar, formatted_username } }'
+        graphql(schema, query).then(resp => res.json(resp))
+    }
 }
